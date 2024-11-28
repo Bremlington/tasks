@@ -10,5 +10,10 @@ public class Main {
         System.out.println(myList.size());
 
         myList.printElements();
+
+        myList.add(0);
+        System.out.println(myList.size());
+
+        myList.printElements();
     }
 }
