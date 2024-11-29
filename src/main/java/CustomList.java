@@ -13,6 +13,14 @@ public class CustomList {
         this.capacity = capacity;
     }
 
+    public Object getByIndex(int index){
+        if(index < size){
+            return array[index];
+        } else {
+            return null;
+        }
+    }
+
     public void removeByIndex(int index){
         if(index > size - 1){
             return;

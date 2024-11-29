@@ -8,6 +8,9 @@ public class Main {
         myList.add(40);
         myList.add(40);
 
+        System.out.println(myList.getByIndex(0));
+        System.out.println(myList.getByIndex(5));
+
         myList.printElements();
         System.out.println(myList.size());
 
@@ -31,5 +34,7 @@ public class Main {
         myList.removeElement(60);
         myList.printElements();
         System.out.println(myList.size());
+
+
     }
 }
