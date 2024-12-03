@@ -1,40 +1,15 @@
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Main {
-    public static void main(String[] args) {
-        CustomList myList = new CustomList(2);
+    public static void main(String[] args){
 
-        myList.add(10);
-        myList.add(20);
-        myList.add(30);
-        myList.add(40);
-        myList.add(40);
-
-        System.out.println(myList.getByIndex(0));
-        System.out.println(myList.getByIndex(5));
-
-        myList.printElements();
-        System.out.println(myList.size());
-
-        myList.removeByIndex(0);
-        myList.removeByIndex(1);
-        myList.printElements();
-        System.out.println(myList.size());
-
-        myList.add(60);
-        myList.printElements();
-        System.out.println(myList.size());
-
-        myList.removeElement(20);
-        myList.printElements();
-        System.out.println(myList.size());
-
-        myList.removeElement(40);
-        myList.printElements();
-        System.out.println(myList.size());
-
-        myList.removeElement(60);
-        myList.printElements();
-        System.out.println(myList.size());
-
+        /*
+        Logger logger = LoggerFactory.getLogger(Logger.class);
+        logger.debug("Debug log message");
+        logger.info("Info log message");
+        logger.error("Error log message");
+        */
 
     }
 }
