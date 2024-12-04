@@ -1,4 +1,6 @@
-public class CustomList {
+import java.util.Arrays;
+
+public class CustomList implements CustomLists{
     private int[] array;
     private int size;
     private int capacity;
@@ -14,17 +16,17 @@ public class CustomList {
         array = new int[capacity];
     }
 
-    public int getByIndex(int index) throws CustomListException{
+    public int getByIndex(int index) throws ArrayIndexOutOfBoundsException{
         if(index < size){
             return array[index];
         } else {
-            throw new CustomListException("Index is out of range");
+            throw new ArrayIndexOutOfBoundsException("Index is out of range");
         }
     }
 
-    public void removeByIndex(int index) throws CustomListException{
+    public void removeByIndex(int index) throws ArrayIndexOutOfBoundsException{
         if(index > size - 1){
-            throw new CustomListException("Index is out of range");
+            throw new ArrayIndexOutOfBoundsException("Index is out of range");
         }
         if(index < size - 1){
             System.arraycopy(array,index+1, array, index, size-index-1);
@@ -32,11 +34,11 @@ public class CustomList {
         this.size--;
     }
 
-    public void removeElement(int element) throws CustomListException {
+    public void removeElement(int value) throws ArrayIndexOutOfBoundsException {
         int[] foundIndexes= new int[size];
         int count = 0;
         for(int i=0; i<size; i++){
-            if(array[i] == element){
+            if(array[i] == value){
                 foundIndexes[count] = i;
                 count++;
             }
@@ -64,9 +66,12 @@ public class CustomList {
         array[size-1] = i;
     }
 
-    public void printElements(){
-        for(int i=0;i<size;i++){
-            System.out.print(array[i]+" ");
-        }
+    @Override
+    public String toString() {
+        return "CustomList{" +
+                "array=" + Arrays.toString(array) +
+                ", size=" + size +
+                ", capacity=" + capacity +
+                '}';
     }
 }
