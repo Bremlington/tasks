@@ -1,21 +1,20 @@
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class CustomLinkedList implements CustomLists{
     private int size;
-
     private CustomListElement start;
     private CustomListElement end;
+    private final Logger logger = LoggerFactory.getLogger(Logger.class);
 
-    CustomLinkedList(){
-        start = null;
-        end = null;
-    }
-
-    private CustomListElement getElementByIndex(int index) throws ArrayIndexOutOfBoundsException{
+    private CustomListElement getElementByIndex(int index){
         if(size == 0){
-            throw new ArrayIndexOutOfBoundsException("Index is out of list size");
+            logger.error("Index is out of list size");
+            return null;
         }
 
         int midSize = size / 2;
-        CustomListElement currentElement = null;
+        CustomListElement currentElement;
 
         if(index < midSize) {
             currentElement = start;
@@ -36,17 +35,27 @@ public class CustomLinkedList implements CustomLists{
     }
 
     @Override
-    public int getByIndex(int index) throws ArrayIndexOutOfBoundsException {
-        return this.getElementByIndex(index).getValue();
+    public int getByIndex(int index) throws RuntimeException {
+        CustomListElement element = this.getElementByIndex(index);
+        if(element == null){
+            throw new RuntimeException("Index is out of list size");
+        }
+
+        return element.getValue();
     }
 
     @Override
-    public void removeByIndex(int index) throws ArrayIndexOutOfBoundsException {
+    public boolean removeByIndex(int index) {
         if(size == 0){
-            throw new ArrayIndexOutOfBoundsException("Index is out of list size");
+            logger.error("Index is out of list size");
+            return false;
         }
 
         CustomListElement currentElement = this.getElementByIndex(index);
+        if(currentElement == null){
+            return false;
+        }
+
         CustomListElement prevElement = currentElement.getPrevious();
         CustomListElement nextElement = currentElement.getNext();
 
@@ -67,14 +76,19 @@ public class CustomLinkedList implements CustomLists{
         }
 
         size--;
+        return true;
     }
 
     @Override
-    public void removeElement(int value) throws ArrayIndexOutOfBoundsException {
+    public boolean removeElement(int value) {
         int[] foundIndexes = new int[size];
         int count = 0;
         for(int i = 0; i < size; i++){
             CustomListElement element = this.getElementByIndex(i);
+            if(element == null){
+                return false;
+            }
+
             if(element.getValue() == value){
                 foundIndexes[count] = i;
                 count++;
@@ -82,8 +96,13 @@ public class CustomLinkedList implements CustomLists{
         }
 
         for(int i=0; i<count; i++){
-            this.removeByIndex(foundIndexes[i]-i);
+            boolean result = this.removeByIndex(foundIndexes[i]-i);
+            if(!result){
+                return false;
+            }
         }
+
+        return true;
     }
 
     @Override

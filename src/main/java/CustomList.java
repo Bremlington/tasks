@@ -1,9 +1,13 @@
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Arrays;
 
 public class CustomList implements CustomLists{
     private int[] array;
     private int size;
     private int capacity;
+    private final Logger logger = LoggerFactory.getLogger(Logger.class);
 
     private static final int DEFAULT_CAPACITY = 8;
     public CustomList(int capacity) {
@@ -16,25 +20,28 @@ public class CustomList implements CustomLists{
         array = new int[capacity];
     }
 
-    public int getByIndex(int index) throws ArrayIndexOutOfBoundsException{
+    public int getByIndex(int index) throws RuntimeException{
         if(index < size){
             return array[index];
         } else {
-            throw new ArrayIndexOutOfBoundsException("Index is out of range");
+            throw new RuntimeException("Index is out of range");
         }
     }
 
-    public void removeByIndex(int index) throws ArrayIndexOutOfBoundsException{
+    public boolean removeByIndex(int index) {
         if(index > size - 1){
-            throw new ArrayIndexOutOfBoundsException("Index is out of range");
+            logger.error("Index is out of list size");
+            return false;
         }
         if(index < size - 1){
             System.arraycopy(array,index+1, array, index, size-index-1);
         }
         this.size--;
+
+        return true;
     }
 
-    public void removeElement(int value) throws ArrayIndexOutOfBoundsException {
+    public boolean removeElement(int value) {
         int[] foundIndexes= new int[size];
         int count = 0;
         for(int i=0; i<size; i++){
@@ -45,8 +52,13 @@ public class CustomList implements CustomLists{
         }
 
         for(int i=0; i<count; i++){
-            this.removeByIndex(foundIndexes[i]-i);
+            boolean result = this.removeByIndex(foundIndexes[i]-i);
+            if(!result){
+                return false;
+            }
         }
+
+        return true;
     }
 
     public int getSize(){

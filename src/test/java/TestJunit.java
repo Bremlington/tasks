@@ -4,9 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestJunit {
 
-    @Test
-    public void testAddMethod() {
-        CustomList myList = new CustomList(16);
+    public void testAddMethod(CustomLists myList){
         myList.add(10);
         assertEquals(1, myList.getSize());
         myList.add(10);
@@ -16,14 +14,15 @@ public class TestJunit {
     }
 
     @Test
+    public void testAddMethodNotLinked() {
+        CustomList myList = new CustomList(16);
+        testAddMethod(myList);
+    }
+
+    @Test
     public void testAddMethodLinked() {
         CustomLinkedList myList = new CustomLinkedList();
-        myList.add(10);
-        assertEquals(1, myList.getSize());
-        myList.add(10);
-        assertEquals(2, myList.getSize());
-        myList.add(10);
-        assertEquals(3, myList.getSize());
+        testAddMethod(myList);
     }
 
     @Test
@@ -35,16 +34,14 @@ public class TestJunit {
         assertEquals(8, myListDefault.getCapacity());
     }
 
-    @Test
-    public void testRemoveElementMethod() throws ArrayIndexOutOfBoundsException {
-        CustomList myList = new CustomList();
+    public void testRemoveElement(CustomLists myList){
         myList.add(10);
         myList.add(10);
         myList.add(20);
         myList.add(20);
         myList.add(30);
 
-        myList.removeElement(20);
+        assertTrue(myList.removeElement(20));
         assertEquals(3, myList.getSize());
         assertEquals(10, myList.getByIndex(0));
         assertEquals(10, myList.getByIndex(1));
@@ -52,50 +49,41 @@ public class TestJunit {
     }
 
     @Test
-    public void testRemoveElementMethodLinked() throws ArrayIndexOutOfBoundsException {
-        CustomLinkedList myList = new CustomLinkedList();
-        myList.add(10);
-        myList.add(10);
-        myList.add(20);
-        myList.add(20);
-        myList.add(30);
-
-        myList.removeElement(20);
-        assertEquals(3, myList.getSize());
-        assertEquals(10, myList.getByIndex(0));
-        assertEquals(10, myList.getByIndex(1));
-        assertEquals(30, myList.getByIndex(2));
+    public void testRemoveElementMethodNotLinked(){
+        CustomList myList = new CustomList();
+        testRemoveElement(myList);
     }
 
     @Test
-    public void testRemoveByIndexMethod() throws ArrayIndexOutOfBoundsException {
-        CustomList myList = new CustomList();
+    public void testRemoveElementMethodLinked() {
+        CustomLinkedList myList = new CustomLinkedList();
+        testRemoveElement(myList);
+    }
+
+    public void testRemoveByIndexMethod(CustomLists myList){
         myList.add(10);
         myList.add(20);
         myList.add(30);
 
-        myList.removeByIndex(1);
+        assertTrue(myList.removeByIndex(1));
         assertEquals(2, myList.getSize());
         assertEquals(10, myList.getByIndex(0));
         assertEquals(30, myList.getByIndex(1));
     }
 
     @Test
-    public void testRemoveByIndexMethodLinked() throws ArrayIndexOutOfBoundsException {
-        CustomLinkedList myList = new CustomLinkedList();
-        myList.add(10);
-        myList.add(20);
-        myList.add(30);
-
-        myList.removeByIndex(1);
-        assertEquals(2, myList.getSize());
-        assertEquals(10, myList.getByIndex(0));
-        assertEquals(30, myList.getByIndex(1));
+    public void testRemoveByIndexMethodNotLinked() {
+        CustomList myList = new CustomList();
+        testRemoveByIndexMethod(myList);
     }
 
     @Test
-    public void testGetByIndex() throws ArrayIndexOutOfBoundsException {
-        CustomList myList = new CustomList();
+    public void testRemoveByIndexMethodLinked() {
+        CustomLinkedList myList = new CustomLinkedList();
+        testRemoveByIndexMethod(myList);
+    }
+
+    public void testGetByIndex(CustomLists myList) throws RuntimeException {
         myList.add(10);
         myList.add(20);
         myList.add(30);
@@ -106,18 +94,19 @@ public class TestJunit {
     }
 
     @Test
-    public void testGetByIndexLinked() throws ArrayIndexOutOfBoundsException {
-        CustomLinkedList myList = new CustomLinkedList();
-        myList.add(10);
-        myList.add(20);
-        myList.add(30);
-
-        assertEquals(10, myList.getByIndex(0));
-        assertEquals(20, myList.getByIndex(1));
-        assertEquals(30, myList.getByIndex(2));
+    public void testGetByIndexNotLinked() throws RuntimeException {
+        CustomList myList = new CustomList();
+        testGetByIndex(myList);
     }
 
-    @Test void testToString(){
+    @Test
+    public void testGetByIndexLinked() throws RuntimeException {
+        CustomLinkedList myList = new CustomLinkedList();
+        testGetByIndex(myList);
+    }
+
+    @Test
+    void testToString(){
         CustomList myList = new CustomList(4);
         myList.add(10);
         myList.add(20);
@@ -127,12 +116,23 @@ public class TestJunit {
         assertEquals(result, myList.toString());
     }
 
-    @Test void testSize(){
-        CustomList myList = new CustomList();
+    public void testGetSize(CustomLists myList){
         myList.add(10);
         myList.add(20);
         myList.add(30);
 
-        assertTrue(myList.getSize() == 3);
+        assertEquals(myList.getSize(), 3);
+    }
+
+    @Test
+    void testSizeNotLinked(){
+        CustomList myList = new CustomList();
+        testGetSize(myList);
+    }
+
+    @Test
+    void testSizeLinked(){
+        CustomLinkedList myList = new CustomLinkedList();
+        testGetSize(myList);
     }
 }

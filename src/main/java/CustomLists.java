@@ -1,7 +1,7 @@
 public interface CustomLists {
-    int getByIndex(int index) throws ArrayIndexOutOfBoundsException;
-    void removeByIndex(int index) throws ArrayIndexOutOfBoundsException;
-    void removeElement(int value) throws ArrayIndexOutOfBoundsException;
+    int getByIndex(int index) throws RuntimeException;
+    boolean removeByIndex(int index);
+    boolean removeElement(int value);
     void add(int i);
     int getSize();
     

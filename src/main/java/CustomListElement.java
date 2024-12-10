@@ -1,20 +1,14 @@
 public class CustomListElement {
     private CustomListElement next;
     private CustomListElement previous;
-    private int value;
+    private final int value;
 
     CustomListElement(int value){
         this.value = value;
-        this.next = null;
-        this.previous = null;
     }
 
     public int getValue() {
         return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
     }
 
     public CustomListElement getPrevious() {
