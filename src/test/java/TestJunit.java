@@ -1,10 +1,10 @@
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestJunit {
 
-    public void testAddMethod(CustomLists myList){
+    public void testAddMethod(List myList){
         myList.add(10);
         assertEquals(1, myList.getSize());
         myList.add(10);
@@ -34,7 +34,7 @@ public class TestJunit {
         assertEquals(8, myListDefault.getCapacity());
     }
 
-    public void testRemoveElement(CustomLists myList){
+    public void testRemoveElement(List myList){
         myList.add(10);
         myList.add(20);
         myList.add(30);
@@ -60,7 +60,7 @@ public class TestJunit {
         testRemoveElement(myList);
     }
 
-    public void testRemoveByIndexMethod(CustomLists myList){
+    public void testRemoveByIndexMethod(List myList){
         myList.add(10);
         myList.add(20);
         myList.add(30);
@@ -83,7 +83,7 @@ public class TestJunit {
         testRemoveByIndexMethod(myList);
     }
 
-    public void testGetByIndex(CustomLists myList) throws RuntimeException {
+    public void testGetByIndex(List myList) throws RuntimeException {
         myList.add(10);
         myList.add(20);
         myList.add(30);
@@ -105,7 +105,7 @@ public class TestJunit {
         testGetByIndex(myList);
     }
 
-    public void testGetSize(CustomLists myList){
+    public void testGetSize(List myList){
         myList.add(10);
         myList.add(20);
         myList.add(30);
@@ -126,33 +126,64 @@ public class TestJunit {
     }
 
     @Test
-    void testSaveLoadLinked(){
-        CustomLinkedList myList = new CustomLinkedList();
-        testSaveLoad(myList);
+    void testFileStorageNotLinked(){
+        CustomList myList = new CustomList();
+        testFileStorage(myList, false);
     }
 
     @Test
-    void testSaveLoadNotLinked(){
-        CustomList myList = new CustomList();
-        testSaveLoad(myList);
+    void testFileStorageLinked(){
+        CustomLinkedList myList = new CustomLinkedList();
+        testFileStorage(myList, true);
     }
 
-    void testSaveLoad(CustomLists myList){
+    void testFileStorage(List myList, boolean isLinked){
         myList.add(30);
         myList.add(10);
         myList.add(10);
         myList.add(40);
 
-        assertTrue(myList.saveToFile());
+        FileStorage fileStorage = new FileStorage();
+        String savedName = fileStorage.save(myList);
+        assertNotEquals(savedName, "");
 
-        myList.removeElement(10);
+        List newList = fileStorage.load(savedName, isLinked);
+        assertEquals(4, newList.getSize());
+        assertEquals(30, newList.getByIndex(0));
+        assertEquals(10, newList.getByIndex(1));
+        assertEquals(10, newList.getByIndex(2));
+        assertEquals(40, newList.getByIndex(3));
+    }
 
-        assertTrue(myList.readFromFile());
+    @Test
+    void testDatabaseStorageNotLinked(){
+        CustomList myList = new CustomList();
+        testDatabaseStorage(myList, false);
+    }
 
-        assertEquals(4, myList.getSize());
-        assertEquals(30, myList.getByIndex(0));
-        assertEquals(10, myList.getByIndex(1));
-        assertEquals(10, myList.getByIndex(2));
-        assertEquals(40, myList.getByIndex(3));
+    @Test
+    void testDatabaseStorageLinked(){
+        CustomLinkedList myList = new CustomLinkedList();
+        testDatabaseStorage(myList, true);
+    }
+
+    void testDatabaseStorage(List myList, boolean isLinked){
+        myList.add(30);
+        myList.add(10);
+        myList.add(10);
+        myList.add(40);
+
+        DatabaseStorage databaseStorage = new DatabaseStorage();
+        databaseStorage.setUsername("springuser");
+        databaseStorage.setPassword("springuser");
+        String savedName = databaseStorage.save(myList);
+        assertNotEquals(savedName, "");
+
+        List newList = databaseStorage.load(savedName, isLinked);
+        assertEquals(4, newList.getSize());
+        assertEquals(30, newList.getByIndex(0));
+        assertEquals(10, newList.getByIndex(1));
+        assertEquals(10, newList.getByIndex(2));
+        assertEquals(40, newList.getByIndex(3));
     }
 }
