@@ -1,3 +1,5 @@
+package Collections;
+
 public interface List {
     int getByIndex(int index) throws RuntimeException;
     boolean removeByIndex(int index);

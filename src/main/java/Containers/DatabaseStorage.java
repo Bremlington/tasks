@@ -1,10 +1,14 @@
+package Containers;
+
+import Collections.List;
+import Utilites.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.UUID;
 
-public class DatabaseStorage implements Storage{
+public class DatabaseStorage implements Storage {
 
     final private String connectionUrl = "jdbc:mysql://localhost:3306/list?serverTimezone=UTC";
     private final Logger logger = LoggerFactory.getLogger(Logger.class);
