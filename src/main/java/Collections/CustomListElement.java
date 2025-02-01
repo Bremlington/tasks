@@ -1,3 +1,5 @@
+package Collections;
+
 public class CustomListElement {
     private CustomListElement next;
     private CustomListElement previous;

@@ -1,11 +1,11 @@
+package Collections;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
 import java.util.Arrays;
-import java.util.regex.Pattern;
 
-public class CustomLinkedList implements CustomLists{
+public class CustomLinkedList implements List {
     private int size;
     private CustomListElement start;
     private CustomListElement end;
@@ -151,54 +151,8 @@ public class CustomLinkedList implements CustomLists{
     }
 
     @Override
-    public void clear() {
-        this.start = new CustomListElement();
-        this.end = new CustomListElement();
-        this.size = 0;
-    }
-
-    @Override
     public int getSize() {
         return size;
-    }
-
-    @Override
-    public boolean saveToFile() {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(this.fileName));
-            writer.write(this.toString());
-            writer.close();
-            return true;
-        } catch (IOException e) {
-            logger.error("Error saving to: "+e);
-            return false;
-        }
-    }
-
-    @Override
-    public boolean readFromFile() {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(this.fileName));
-            String currentLine = reader.readLine();
-            reader.close();
-
-            currentLine = currentLine.replace("[", "");
-            currentLine = currentLine.replace("]", "");
-            currentLine = currentLine.replace(" ", "");
-
-            Pattern pattern = Pattern.compile(",");
-            String[] strings = pattern.split(currentLine);
-
-            this.clear();
-            for(int i=0; i < strings.length; i++){
-                this.add(Integer.parseInt(strings[i]));
-            }
-
-            return true;
-        } catch (IOException e) {
-            logger.error("Error loading from: "+e);
-            return false;
-        }
     }
 
 }
