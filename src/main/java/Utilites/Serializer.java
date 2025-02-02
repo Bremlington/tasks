@@ -4,10 +4,14 @@ import Collections.CustomLinkedList;
 import Collections.CustomList;
 import Collections.List;
 
+import java.util.Arrays;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 public class Serializer {
-    public String SerializeList(List list){
+    private final Pattern pattern = Pattern.compile(",");
+
+    public String Serialize(List list){
         int listSize = list.getSize();
         if(listSize==0){
             return "";
@@ -23,24 +27,12 @@ public class Serializer {
         return result.toString();
     }
 
-    private List DeserializeAsList(String value, List list){
-        Pattern pattern = Pattern.compile(",");
+    public List Deserialize(String value, boolean isLinked){
+        List list = (isLinked) ? new CustomLinkedList() : new CustomList();
         String[] strings = pattern.split(value);
-
-        for (String string : strings) {
-            list.add(Integer.parseInt(string));
-        }
+        Stream<String> stream = Arrays.stream(strings);
+        stream.forEach(x->list.add(Integer.parseInt(x)));
 
         return list;
-    }
-
-    public CustomList DeserializeAsCustomList(String value){
-        CustomList result = new CustomList();
-        return (CustomList) DeserializeAsList(value, result);
-    }
-
-    public CustomLinkedList DeserializeAsCustomLinkedList(String value){
-        CustomLinkedList result = new CustomLinkedList();
-        return (CustomLinkedList) DeserializeAsList(value, result);
     }
 }

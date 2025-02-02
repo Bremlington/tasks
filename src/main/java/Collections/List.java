@@ -1,6 +1,6 @@
 package Collections;
 
-public interface List {
+public interface List{
     int getByIndex(int index) throws RuntimeException;
     boolean removeByIndex(int index);
     boolean removeElement(int value);

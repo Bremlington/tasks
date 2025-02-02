@@ -1,13 +1,12 @@
 import Collections.CustomLinkedList;
 import Collections.CustomList;
 import Collections.List;
-import Containers.DatabaseStorage;
-import Containers.FileStorage;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TestJunit {
+public class TestCollections {
 
     public void testAddMethod(List myList){
         myList.add(10);
@@ -130,65 +129,4 @@ public class TestJunit {
         testGetSize(myList);
     }
 
-    @Test
-    void testFileStorageNotLinked(){
-        CustomList myList = new CustomList();
-        testFileStorage(myList, false);
-    }
-
-    @Test
-    void testFileStorageLinked(){
-        CustomLinkedList myList = new CustomLinkedList();
-        testFileStorage(myList, true);
-    }
-
-    void testFileStorage(List myList, boolean isLinked){
-        myList.add(30);
-        myList.add(10);
-        myList.add(10);
-        myList.add(40);
-
-        FileStorage fileStorage = new FileStorage();
-        String savedName = fileStorage.save(myList);
-        assertNotEquals(savedName, "");
-
-        List newList = fileStorage.load(savedName, isLinked);
-        assertEquals(4, newList.getSize());
-        assertEquals(30, newList.getByIndex(0));
-        assertEquals(10, newList.getByIndex(1));
-        assertEquals(10, newList.getByIndex(2));
-        assertEquals(40, newList.getByIndex(3));
-    }
-
-    @Test
-    void testDatabaseStorageNotLinked(){
-        CustomList myList = new CustomList();
-        testDatabaseStorage(myList, false);
-    }
-
-    @Test
-    void testDatabaseStorageLinked(){
-        CustomLinkedList myList = new CustomLinkedList();
-        testDatabaseStorage(myList, true);
-    }
-
-    void testDatabaseStorage(List myList, boolean isLinked){
-        myList.add(30);
-        myList.add(10);
-        myList.add(10);
-        myList.add(40);
-
-        DatabaseStorage databaseStorage = new DatabaseStorage();
-        databaseStorage.setUsername("springuser");
-        databaseStorage.setPassword("springuser");
-        String savedName = databaseStorage.save(myList);
-        assertNotEquals(savedName, "");
-
-        List newList = databaseStorage.load(savedName, isLinked);
-        assertEquals(4, newList.getSize());
-        assertEquals(30, newList.getByIndex(0));
-        assertEquals(10, newList.getByIndex(1));
-        assertEquals(10, newList.getByIndex(2));
-        assertEquals(40, newList.getByIndex(3));
-    }
 }
