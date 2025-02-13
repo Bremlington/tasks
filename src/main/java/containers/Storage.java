@@ -1,6 +1,6 @@
-package Containers;
+package containers;
 
-import Collections.List;
+import collections.List;
 
 public interface Storage {
     StorageSaveResult save(List list);

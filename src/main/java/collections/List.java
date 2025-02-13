@@ -1,4 +1,4 @@
-package Collections;
+package collections;
 
 public interface List{
     int getByIndex(int index) throws RuntimeException;

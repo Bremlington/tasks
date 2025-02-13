@@ -1,10 +1,10 @@
-package Containers.Database;
+package containers.database;
 
-import Collections.List;
-import Containers.Storage;
-import Containers.StorageLoadResult;
-import Containers.StorageSaveResult;
-import Utilites.Serializer;
+import collections.List;
+import containers.Storage;
+import containers.StorageLoadResult;
+import containers.StorageSaveResult;
+import utilites.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,20 +14,16 @@ import java.util.UUID;
 public class DatabaseStorage implements Storage {
 
     private final Logger logger = LoggerFactory.getLogger(Logger.class);
-    private StorageConfig config;
+    private final StorageConfig config;
     private final Serializer serializer = new Serializer();
 
     public DatabaseStorage(StorageConfig config) {
         this.config = config;
     }
 
-    public void setConfig(StorageConfig config) {
-        this.config = config;
-    }
-
     @Override
     public StorageSaveResult save(List list) {
-        String dataList = serializer.Serialize(list);
+        String dataList = serializer.serialize(list);
 
         UUID uuid = UUID.randomUUID();
         String saveQuery = "INSERT INTO list (uuid, data) VALUES ('"+uuid+"','"+dataList+"')";
@@ -35,6 +31,7 @@ public class DatabaseStorage implements Storage {
             Connection conn = DriverManager.getConnection(config.getConnectionUrl(), config.getLoginPassword());
             PreparedStatement ps = conn.prepareStatement(saveQuery);
             ps.execute();
+            conn.close();
             return new StorageSaveResult(true, uuid.toString(), "");
         } catch (SQLException e) {
             String errorMessage = "Error saving to file: "+e;
@@ -57,7 +54,9 @@ public class DatabaseStorage implements Storage {
             }
 
             String loadResult = rs.getString("data");
-            return new StorageLoadResult(true, serializer.Deserialize(loadResult, isLinked), "");
+            conn.close();
+
+            return new StorageLoadResult(true, serializer.deserialize(loadResult, isLinked), "");
         } catch (SQLException e) {
             String errorMessage = "Error loading from database: "+e;
             logger.error(errorMessage);

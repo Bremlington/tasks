@@ -1,17 +1,19 @@
-package Utilites;
+package utilites;
 
-import Collections.CustomLinkedList;
-import Collections.CustomList;
-import Collections.List;
+import collections.CustomLinkedList;
+import collections.CustomList;
+import collections.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 public class Serializer {
     private final Pattern pattern = Pattern.compile(",");
+    private final Logger logger = LoggerFactory.getLogger(Logger.class);
 
-    public String Serialize(List list){
+    public String serialize(List list){
         int listSize = list.getSize();
         if(listSize==0){
             return "";
@@ -27,12 +29,14 @@ public class Serializer {
         return result.toString();
     }
 
-    public List Deserialize(String value, boolean isLinked){
+    public List deserialize(String value, boolean isLinked) {
         List list = (isLinked) ? new CustomLinkedList() : new CustomList();
-        String[] strings = pattern.split(value);
-        Stream<String> stream = Arrays.stream(strings);
-        stream.forEach(x->list.add(Integer.parseInt(x)));
-
+        try {
+            Arrays.stream(pattern.split(value)).forEach(x -> list.add(Integer.parseInt(x)));
+        } catch (NumberFormatException e){
+            String errorMessage = "Error serializing: "+e;
+            logger.error(errorMessage);
+        }
         return list;
     }
 }

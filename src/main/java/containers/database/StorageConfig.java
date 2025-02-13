@@ -1,6 +1,6 @@
-package Containers.Database;
+package containers.database;
 
-import Containers.StorageType;
+import containers.StorageType;
 
 import java.util.Properties;
 
