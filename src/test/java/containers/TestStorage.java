@@ -32,7 +32,7 @@ public class TestStorage {
         switch (storageType) {
             case FILE ->
                 incorrectConfig = new StorageConfig("///////");
-            
+
             case DATABASE ->
                 incorrectConfig = new StorageConfig("incorrect", "incorrect", "incorrect", 0, "incorrect", "incorrect");
 
