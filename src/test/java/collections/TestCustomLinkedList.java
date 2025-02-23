@@ -1,35 +1,64 @@
 package collections;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestCustomLinkedList {
+
+    private CustomLinkedList myList;
+
+    @Before
+    public void setUp(){
+        myList = new CustomLinkedList();
+        myList.add(10);
+        myList.add(20);
+        myList.add(30);
+        myList.add(30);
+        myList.add(50);
+    }
+
     @Test
     public void testAdd() {
-        CustomLinkedList myList = new CustomLinkedList();
-        TestList.testAdd(myList);
+        myList.add(10);
+        assertEquals(6, myList.getSize());
+        myList.add(10);
+        assertEquals(7, myList.getSize());
+        myList.add(10);
+        assertEquals(8, myList.getSize());
     }
 
     @Test
     public void testRemoveElement() {
-        CustomLinkedList myList = new CustomLinkedList();
-        TestList.testRemoveElement(myList);
+        assertFalse(myList.removeElement(300));
+        assertTrue(myList.removeElement(30));
+
+        assertEquals(3, myList.getSize());
+        assertEquals(10, myList.getByIndex(0));
+        assertEquals(20, myList.getByIndex(1));
+        assertEquals(50, myList.getByIndex(2));
     }
 
     @Test
     public void testRemoveByIndex() {
-        CustomLinkedList myList = new CustomLinkedList();
-        TestList.testRemoveByIndex(myList);
+        assertTrue(myList.removeByIndex(1));
+        assertEquals(4, myList.getSize());
+        assertEquals(10, myList.getByIndex(0));
+        assertEquals(30, myList.getByIndex(1));
+
+        assertFalse(myList.removeByIndex(100));
     }
 
     @Test
     public void testGetByIndex() throws RuntimeException {
-        CustomLinkedList myList = new CustomLinkedList();
-        TestList.testGetByIndex(myList);
+        assertEquals(10, myList.getByIndex(0));
+        assertEquals(20, myList.getByIndex(1));
+        assertEquals(30, myList.getByIndex(2));
     }
 
     @Test
-    void testSize(){
-        CustomLinkedList myList = new CustomLinkedList();
-        TestList.testGetSize(myList);
+    public void testSize(){
+        assertEquals(myList.getSize(), 5);
     }
 }
