@@ -1,34 +1,13 @@
-package Collections;
+package collections;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Arrays;
 
 public class CustomLinkedList implements List {
     private int size;
     private CustomListElement start;
     private CustomListElement end;
     private final Logger logger = LoggerFactory.getLogger(Logger.class);
-    @Override
-    public String toString() {
-        return Arrays.toString(this.toArray());
-    }
-
-    private int[] toArray(){
-        int[] values = new int[size];
-
-        int count = 0;
-        CustomListElement currElement = start;
-        while(!currElement.isEmpty()){
-            values[count] = currElement.getValue();
-
-            currElement = currElement.getNext();
-            count++;
-        }
-
-        return values;
-    }
 
     public CustomLinkedList() {
         this.start = new CustomListElement();
@@ -74,7 +53,7 @@ public class CustomLinkedList implements List {
 
     @Override
     public boolean removeByIndex(int index) {
-        if(size == 0){
+        if(size == 0 || index > size - 1){
             logger.error("Index is out of list size");
             return false;
         }
@@ -121,6 +100,10 @@ public class CustomLinkedList implements List {
                 foundIndexes[count] = i;
                 count++;
             }
+        }
+
+        if(count==0){
+            return false;
         }
 
         for(int i=0; i<count; i++){

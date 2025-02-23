@@ -1,9 +1,7 @@
-package Collections;
+package collections;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Arrays;
 
 public class CustomList implements List {
     private int[] array;
@@ -11,12 +9,6 @@ public class CustomList implements List {
     private int capacity;
     private final Logger logger = LoggerFactory.getLogger(Logger.class);
     private static final int DEFAULT_CAPACITY = 8;
-
-    @Override
-    public String toString() {
-        int[] arrayToString = Arrays.copyOf(array, size);
-        return Arrays.toString(arrayToString);
-    }
 
     public CustomList(int capacity) {
         array = new int[capacity];
@@ -50,13 +42,17 @@ public class CustomList implements List {
     }
 
     public boolean removeElement(int value) {
-        int[] foundIndexes= new int[size];
+        int[] foundIndexes = new int[size];
         int count = 0;
         for(int i=0; i<size; i++){
             if(array[i] == value){
                 foundIndexes[count] = i;
                 count++;
             }
+        }
+
+        if(count==0){
+            return false;
         }
 
         for(int i=0; i<count; i++){

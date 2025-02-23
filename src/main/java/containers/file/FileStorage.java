@@ -1,11 +1,11 @@
-package Containers.File;
+package containers.file;
 
-import Collections.List;
-import Containers.Database.StorageConfig;
-import Containers.Storage;
-import Containers.StorageLoadResult;
-import Containers.StorageSaveResult;
-import Utilites.Serializer;
+import collections.List;
+import containers.database.StorageConfig;
+import containers.Storage;
+import containers.StorageLoadResult;
+import containers.StorageSaveResult;
+import utilites.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +31,7 @@ public class FileStorage implements Storage {
         String fullPathToFile = getFullPathToFileById(uuid.toString());
 
         try {
-            String dataList = serializer.Serialize(list);
+            String dataList = serializer.serialize(list);
 
             BufferedWriter writer = new BufferedWriter(new FileWriter(fullPathToFile));
             writer.write(dataList);
@@ -53,7 +53,7 @@ public class FileStorage implements Storage {
             String currentLine = reader.readLine();
             reader.close();
 
-            return new StorageLoadResult(true, serializer.Deserialize(currentLine, isLinked), "");
+            return new StorageLoadResult(true, serializer.deserialize(currentLine, isLinked), "");
         } catch (IOException e) {
             String errorMessage = "Error loading from file: "+e;
             logger.error(errorMessage);
